@@ -1,0 +1,27 @@
+version: "3.3"
+services:
+  angular-app:
+    container_name: angular-app
+    restart: always
+    image: joeamal/ekart-angular-app 
+    environment:
+      - API_URL=${API_URL}
+    ports:
+      - "80:80"
+  node-app:
+    container_name: node-app
+    restart: always
+    image: joeamal/ekart-node-app
+    environment:
+      - ANGULAR_HOST=${ANGULAR_HOST}
+    ports:
+      - "3000:3000"
+    links:
+      - mongodb
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    volumes: 
+      - ./data/store/mongo:/data/db
+    ports:
+      - "27017:27017"
